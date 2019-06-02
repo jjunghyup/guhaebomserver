@@ -13,8 +13,8 @@ guhaebomserver
 
 ### 구인자
 > http://localhost:5000/chatroom_employee
-![image_1](images/capture1.jpg)
+![image_1](https://github.com/jjunghyup/guhaebomserver/blob/master/images/capture1.JPG)
 
 ### 구직자
 > http://localhost:5000/chatroom_employee
-![image_2](images/capture2.jpg)
+![image_2](https://github.com/jjunghyup/guhaebomserver/blob/master/images/capture2.JPG)
