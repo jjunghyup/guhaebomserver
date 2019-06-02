@@ -4,7 +4,7 @@ account = get_collection('guhaebom', 'account')
 
 
 def get_all_accounts():
-    return account.find({'_id': False})
+    return [doc for doc in account.find({}, {'_id': False})]
 
 
 def get_one(*args, **kwargs):
