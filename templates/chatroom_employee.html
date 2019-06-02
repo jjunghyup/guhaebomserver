@@ -1,0 +1,102 @@
+<html>
+<head>
+    <link rel="shortcut icon" href="/static/img/Robot.ico">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script>
+
+        $(document).on("pageinit", "#pageone", function () {
+            $('#submit_button').bind('click', function () {
+                sendmessage();
+            });
+        });
+
+        function sendmessage() {
+            var data = {
+                'message': $('input[name=msg_content]').val(),
+                'sender': "편의점꿈나무",
+                'sentTime': "YYYY-MM-DD"
+            };
+            $('input[name=msg_content]').val("");
+            $(".ui-block-b.dialog:last").after('<div class="ui-block-a dialog"></div><div class="ui-block-b dialog"></div>');
+            $(".ui-block-b.dialog:last").text(data.message);
+            $.ajax({
+                url: '/chatbot/process',
+                data: JSON.stringify(data),
+                dataType: "json",
+                contentType: "application/json",
+                type: 'post',
+                success: function (result) {
+                    $(".ui-block-b.dialog:last").after('<div class="ui-block-a dialog"></div><div class="ui-block-b dialog"></div>');
+                    $(".ui-block-a.dialog:last").text(result);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        };
+
+        function init() {
+            $.ajax({
+                url: '/converstaion/test_employee',
+                dataType: "json",
+                contentType: "application/json",
+                type: 'delete',
+                success: function (result) {
+                    console.log(test_employee + "의 대화가 초기화 되었습니다.");
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+        window.onload = init;
+
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <style>
+        .ui-block-a.dialog {
+            text-align: left;
+        }
+
+        .ui-block-b.dialog {
+            text-align: right;
+        }
+
+
+    </style>
+</head>
+
+<body>
+
+<div data-role="page" id="pageone">
+    <div data-role="header" data-position="fixed">
+        <h1>구해봄 Chatbot</h1>
+    </div>
+    <div data-role="main" class="ui-content">
+        <div class="ui-grid-a">
+            <div class="ui-block-a dialog">안녕하세요 구해봄입니다. :)</div>
+            <div class="ui-block-b dialog"></div>
+        </div>
+    </div>
+
+    <div data-role="footer" data-position="fixed">
+        <div class="ui-grid-a">
+            <div class="ui-block-a" style="width:80%"><input name="msg_content" id="msg_content" data-clear-btn="true"
+                                                             onkeypress="if( event.keyCode==13 ){sendmessage();}"/>
+            </div>
+            <div class=" ui-block-b" style="width:20%"><a data-role="button" id="submit_button">Send</a></div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

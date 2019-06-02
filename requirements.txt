@@ -1,0 +1,11 @@
+anago==1.0.8
+eunjeon==0.3.9.6
+Flask==0.12.2
+Flask-Cors==3.0.4
+flask-restplus==0.12.1
+Keras==2.2.2
+Keras-Applications==1.0.4
+Keras-Preprocessing==1.0.2
+pymongo==3.7.2
+tensorboard==1.9.0
+tensorflow==1.9.0
