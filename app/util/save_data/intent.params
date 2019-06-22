@@ -43,11 +43,11 @@
                         }
                     },
                     "embeddings_regularizer": null,
-                    "input_dim": 34,
+                    "input_dim": 39,
                     "input_length": 15,
                     "mask_zero": false,
                     "name": "embedding_1",
-                    "output_dim": 34,
+                    "output_dim": 39,
                     "trainable": true
                 },
                 "inbound_nodes": [
@@ -881,7 +881,7 @@
                     "kernel_regularizer": null,
                     "name": "dense_3",
                     "trainable": true,
-                    "units": 15,
+                    "units": 18,
                     "use_bias": true
                 },
                 "inbound_nodes": [

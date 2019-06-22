@@ -39,11 +39,11 @@ if __name__ == '__main__':
     TM.set_train_data('1')
     TM.train()
     TM.save_model_as('job_matching_entity.weight', 'job_matching_entity.params', 'job_matching_entity.preprocessor')
-    #
-    # TM = TrainResultEntityModel()
+
+    # TM = TrainEntityModel()
     # TM.set_train_data('2')
     # TM.train()
-    # TM.save_model_as('result_entity.weight', 'result_entity.params', 'result_entity.preprocessor')
+    # TM.save_model_as('request_entity.weight', 'request_entity.params', 'request_entity.preprocessor')
     #
     # TM = TrainResultEntityModel()
     # TM.set_train_data('3')

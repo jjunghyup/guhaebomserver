@@ -2,7 +2,6 @@
 import os
 from keras.preprocessing.sequence import pad_sequences
 from app.util.model.char_cnn_model import load_model
-from app.util.db import get_intent_data
 from app.util.lexical_analyze import morphs
 
 
@@ -14,7 +13,7 @@ class IntentModel:
         self.weight = self.train_folder_path + 'intent.weight'
         self.params = self.train_folder_path +'intent.params'
         self.preprocessor = self.train_folder_path +'intent.preprocessor'
-        self.intent_list = get_intent_data()
+        self.intent_list = {'0': '안녕', '1': '알바구하기', '2': '신청하기'}
         self.load_model()
         self.intent_model._make_predict_function()
         self.x_predict = None
@@ -39,4 +38,4 @@ class IntentModel:
 
 if __name__ == '__main__':
     model = IntentModel()
-    print(model.predict("일자리 구하고 싶어"))
+    print(model.predict("카페 일자리 구해줘"))

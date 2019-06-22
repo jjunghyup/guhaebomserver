@@ -63,7 +63,7 @@
                         }
                     },
                     "embeddings_regularizer": null,
-                    "input_dim": 36,
+                    "input_dim": 40,
                     "input_length": null,
                     "mask_zero": true,
                     "name": "char_embedding",
@@ -101,7 +101,7 @@
                         }
                     },
                     "embeddings_regularizer": null,
-                    "input_dim": 30,
+                    "input_dim": 32,
                     "input_length": null,
                     "mask_zero": true,
                     "name": "word_embedding",
@@ -386,7 +386,7 @@
                     "sparse_target": false,
                     "test_mode": "viterbi",
                     "trainable": true,
-                    "units": 3,
+                    "units": 4,
                     "unroll": false,
                     "use_bias": true,
                     "use_boundary": true

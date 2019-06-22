@@ -29,4 +29,8 @@ class EntityModel:
 #
 if __name__ == '__main__':
     model = EntityModel('job_matching_entity.weight', 'job_matching_entity.params', 'job_matching_entity.preprocessor')
-    print(model.predict("편의점 알바 구해줘"))
+    print(model.predict("카페 일자리 구해줘"))
+
+    model = EntityModel('request_entity.weight', 'request_entity.params', 'request_entity.preprocessor')
+    print(model.predict("'사람이름' 선택할께"))
+    print(model.predict("'업무' 신청할께"))

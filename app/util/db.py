@@ -65,8 +65,7 @@ def get_entity_test_data(intent):
 #     delete_one(data)
 #     insert_one(data)
 #
-# if __name__ == '__main__':
-#     id = 'idid'
-#     print(id)
-#     print(get_one({'user_id': 'sw.hyeon'})['user_id'])
+if __name__ == '__main__':
+    id = 'idid'
+    print(get_intent_data())
 #

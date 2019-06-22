@@ -11,10 +11,13 @@ from app.service import conversation as conversation_service
 class ChatbotEngine:
     def __init__(self):
         self.intent_model = IntentModel()
-        self.job_matching_entity_model = EntityModel('job_matching_entity.weight', 'job_matching_entity.params', 'job_matching_entity.preprocessor')
+        self.job_matching_entity_model = EntityModel('job_matching_entity.weight', 'job_matching_entity.params',
+                                                     'job_matching_entity.preprocessor')
         self.conversation = None
         self.Answer = Answer()
         self.ans = None
+        self.chat_type = "0"
+        self.additional_process = False
 
     def process(self, message):
         """ 1. initialize or load conversation """
@@ -37,19 +40,21 @@ class ChatbotEngine:
             self.conversation.message = message.message
             conversation_service.update_one(self.conversation.__dict__)
 
-            logging.debug('[ Conversation with \'{0} ]'.format(self.conversation.sender))
+            print('[ Conversation with \'{0} ]'.format(self.conversation.sender))
         self.conversation.message = error_keyword_fix(self.conversation.message)
 
         """ 2. generate answer """
         # initialize
         self.ans = self.Answer.i_dont_know()
+        self.chat_type = "1"
+        self.additional_process = False
 
         # hot keys
         if self.conversation.message == "처음단계로" or self.conversation.message == "아니":
             self.ans = self.Answer.init_message()
             self._to_status('0')
             # self.btn[3] = True
-        elif self.conversation.message == "안녕":
+        elif self.conversation.message == "안녕" or self.conversation.message == "newcat":
             self.ans = self.Answer.hello(self.conversation.sender)
             self._to_status('0')
             # self.btn[3] = True
@@ -64,9 +69,9 @@ class ChatbotEngine:
         """ 3. teardown """
         # save conversation into database
         conversation_service.update_one(self.conversation.__dict__)
-        logging.debug('status : ' + self.conversation.status)
+        print('status : ' + self.conversation.status)
 
-        return self.ans
+        return self.ans, self.chat_type, self.additional_process
 
     def _generate_answer(self):
         if self.conversation.status == "0" or self.conversation.status == "4":
@@ -82,28 +87,37 @@ class ChatbotEngine:
             self._to_status('2')
         elif self.conversation.status == "2":
             # 테스트 단계 설정 필요
-            self._to_status('0')
             if '그래' in self.conversation.message or '응' in self.conversation.message \
                     or '해줘' in self.conversation.message:
-                self.ans = '[알바검색] 넵 바로 확인해보겠습니다.'
-                # todo: 알바검색 프로세스 진행
+                self.ans = '일자리 등록이 완료되었습니다.'
+                self._to_status('3')
             else:
+                self._to_status('0')
                 self.ans = self.Answer.init_message()
+        elif self.conversation.status == "3":
+            self.ans = self.Answer.employer_completed_request('사람이름')
+            self.additional_process = True
+            self._to_status('0')
 
         elif self.conversation.status == "a":
             # 테스트 단계 설정 필요
             self.ans = self.Answer.employer_desired_salary()
             self._to_status('b')
         elif self.conversation.status == "b":
-            self._to_status('0')
+            self._to_status('c')
             if '그래' in self.conversation.message or '응' in self.conversation.message \
                     or '해줘' in self.conversation.message:
-                self.ans = '[알바검색] 넵 바로 찾아보겠습니다.'
+                self.ans = self.Answer.employee_recommend_job_list(self.conversation.job)
+                self.chat_type = "3"
+        elif self.conversation.status == "c":
+            self.ans = self.Answer.employee_completed_request('XX업무')
+            self.additional_process = True
+            self._to_status('0')
 
     def _process_status_initial(self):
         # 1. get intent
         intent = self.intent_model.predict(self.conversation.message)
-        logging.debug('intent : ' + intent)
+        print('intent : ' + intent)
 
         if intent == "안녕":
             self.ans = self.Answer.hello(self.conversation.sender)
@@ -115,19 +129,20 @@ class ChatbotEngine:
 
         else:
             # todo : ?
-            logging.debug('바보야')
+            print('바보야')
 
     def _searching_job_after_process(self):
         entities = self.job_matching_entity_model.predict(self.conversation.message)['entities']
-        logging.debug('entities-->')
-        logging.debug(entities)
+        print('entities-->')
+        print(entities)
         for entity in entities:
             if entity['type'] == 'job':
                 self.conversation.job = entity['text']
             elif entity['type'] == 'type':
                 self.conversation.type = entity['text']
-        if self.conversation.sender == '편의점꿈나무':
+        if self.conversation.sender == '카페꿈나무':
             self.ans = self.Answer.employee_ask_require_date(self.conversation.job, self.conversation.type)
+            self.chat_type = "2"
             self._to_status('1')
         else:
             if self.conversation.type == '바로' or self.conversation.type == '긴급':
@@ -136,6 +151,7 @@ class ChatbotEngine:
                 self._to_status('b')
             else:
                 self.ans = self.Answer.employer_ask_require_date(self.conversation.job, self.conversation.type)
+                self.chat_type = "2"
                 self._to_status('a')
 
     def _to_status(self, status):
@@ -148,3 +164,4 @@ class ChatbotEngine:
     def _initialize_info(self):
         self.conversation.job = None
         self.conversation.type = None
+        self.conversation.target = None

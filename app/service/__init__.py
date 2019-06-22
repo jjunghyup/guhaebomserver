@@ -1,6 +1,6 @@
 import pymongo
 
-conn = pymongo.MongoClient('ip', 27017, username='id', password='pass')
+conn = pymongo.MongoClient('ip', 27017, username='chacha', password='test!@34')
 
 
 def get_database(database):

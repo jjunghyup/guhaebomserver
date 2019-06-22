@@ -77,6 +77,21 @@ class Answer(object):
             ans = '급여는 기존에 입력하신 10,000원으로 알아볼까요?'
             return ans
 
+    def employee_recommend_job_list(self, job):
+        if self.LANG is 'KO':
+            ans = '[%s, 3]해당하는 날짜에 맞는 일자리 3개를 찾았어요!' % job
+            return ans
+
+    def employer_completed_request(self, target):
+        if self.LANG is 'KO':
+            ans = "'%s'님으로 확정 완료되었습니다. 감사합니다." % target
+            return ans
+
+    def employee_completed_request(self, target):
+        if self.LANG is 'KO':
+            ans = "'%s'를 신청하셨습니다. 확정되면 안내해 드릴게요^^" % target
+            return ans
+
     def error(self):
         """
             알 수 없는 오류

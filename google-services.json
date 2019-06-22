@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "887103517688",
+    "firebase_url": "https://guhaebom.firebaseio.com",
+    "project_id": "guhaebom",
+    "storage_bucket": "guhaebom.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887103517688:android:e71fc0c684ddb176",
+        "android_client_info": {
+          "package_name": "com.sds.guhaebom"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887103517688-u0a1rsul9rc4me4v247dsf3vfgbgudui.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDigyFfeSPUvMQSgkRWLDHt1Yfwdcn3k2M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887103517688-u0a1rsul9rc4me4v247dsf3vfgbgudui.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
