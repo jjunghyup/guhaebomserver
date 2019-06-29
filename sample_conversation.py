@@ -60,7 +60,8 @@ worker_send_message("2019-06-21 ~ 2019-06-25")
 get_chatbot_last_message("worker")
 worker_send_message("응")
 get_chatbot_last_message("worker")
-
+worker_send_message("커피 제조, 서빙, 주방 보조")
+get_chatbot_last_message("worker")
 
 # job 시나리오
 job_send_message("newcat")

@@ -89,11 +89,14 @@ class ChatbotEngine:
             # 테스트 단계 설정 필요
             if '그래' in self.conversation.message or '응' in self.conversation.message \
                     or '해줘' in self.conversation.message:
-                self.ans = '일자리 등록이 완료되었습니다.'
-                self._to_status('3')
+                self.ans = '업무 수행을 위해 필요한 역량을 입력해 주세요'
+                self._to_status('2-1')
             else:
                 self._to_status('0')
                 self.ans = self.Answer.init_message()
+        elif self.conversation.status == "2-1":
+            self.ans = '일자리 등록이 완료되었습니다.\n ' + self.conversation.message + ' 능력이 있는 사람을 구해보겠습니다.'
+            self._to_status('3')
         elif self.conversation.status == "3":
             self.ans = self.Answer.employer_completed_request('사람이름')
             self.additional_process = True
