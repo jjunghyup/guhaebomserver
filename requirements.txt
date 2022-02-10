@@ -8,4 +8,4 @@ Keras-Applications==1.0.4
 Keras-Preprocessing==1.0.2
 pymongo==3.7.2
 tensorboard==1.9.0
-tensorflow==1.15.4
+tensorflow==2.5.3
